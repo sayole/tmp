@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-// import './SideBar.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +8,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ListSubheader from '@material-ui/core/ListSubheader';
+// import Store from '../service/Store';
 
 const useStyles = makeStyles((theme) => ({
     SideBar: {
@@ -30,6 +30,11 @@ function SideBar() {
     const [openStaff, setOpenStaff] = React.useState(true);
     const [openOrder, setOpenOrder] = React.useState(true);
     const [openBusiness, setOpenBusiness] = React.useState(true);
+    const [openClicked, setOpenClicked] = React.useState()
+
+    const menuClicked = () => {
+
+    }
 
     const productClick = () => {
         setOpenProduct(!openProduct);
@@ -54,14 +59,15 @@ function SideBar() {
             </ListSubheader>
         }>
             <List component="nav" aria-label="">
-                <ListItem button onClick={()=>{productClick();}}>
+                <ListItem button onClick={productClick}>
                     <ListItemText primary="상품"/>
                     {openProduct ? <ExpandLess/> : <ExpandMore/>}
                 </ListItem>
                 <Collapse in={!openProduct} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItem button className={classes.nested}>
-                            <ListItemText primary="상품조회" />
+                            <ListItemText  primary="상품조회" />
+                            {/*onClick={() => Store.dispatch({type:'INCREMENT', selectedIndex: "상품조회"})}*/}
                         </ListItem>
                         <ListItem button className={classes.nested}>
                             <ListItemText primary="상품관리" />
