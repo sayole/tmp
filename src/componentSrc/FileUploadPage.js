@@ -35,8 +35,38 @@ export default function FileUploadPage() {
     }, []);
 
     const selectFile = (event) => {
+        setMessage("");
+        if(isNotExcel(event.target.files[0].name)){
+            setSelectedFiles(undefined);
+            setCurrentFile(undefined);
+            setMessage("excel file만 업로드 가능");
+            return;
+        }
         setSelectedFiles(event.target.files);
     };
+
+    function getExtension(filename) {
+        let parts = filename.split('.');
+        return parts[parts.length - 1];
+    }
+
+    function isNotExcel(filename) {
+        let ext = getExtension(filename+'');
+        switch (ext.toLowerCase()) {
+            case 'xlsx':
+            case 'xlsm':
+            case 'xlsb':
+            case 'xltx':
+            case 'xltxm':
+            case 'xls':
+            case 'xlt':
+            case 'xml':
+            case 'xlam':
+                //etc
+                return false;
+        }
+        return true;
+    }
 
     const upload = () => {
         let currentFile = selectedFiles[0];
@@ -48,7 +78,7 @@ export default function FileUploadPage() {
             setProgress(Math.round((100 * event.loaded) / event.total));
         })
             .then((response) => {
-                setMessage(response.data.message);
+                setMessage("성공");
                 return UploadService.getFiles();
             })
             .then((files) => {
